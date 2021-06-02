@@ -1,10 +1,24 @@
-const fs = require('fs');
+const inquirer = require('inquirer');
 
-const generatePage = require('./src/page-template');
+inquirer
+    .prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message: 'What is your name?'
+        }
+    ])
+    .then(answers => console.log(answers));
 
-const profileDataArgs = process.argv.slice(2, process.argv.length);
+//const fs = require('fs');
+//const generatePage = require('./src/page-template');
 
-const [userName, github] = profileDataArgs;
+//const pageHTML = generatePage(userName, github);
+
+// BEGIN OLD COMMENTED-OUT
+// const profileDataArgs = process.argv.slice(2, process.argv.length);
+
+// const [userName, github] = profileDataArgs;
 
 // const printProfileData = profileDataArr => {
 //
@@ -20,10 +34,11 @@ const [userName, github] = profileDataArgs;
 //};
 //
 //printProfileData(profileDataArgs);
+// END OLD COMMENTED-OUT
 
-fs.writeFile('./index.html', generatePage(userName, github), err => {
-    if (err) throw new Error(err);
+//fs.writeFile('./index.html', pageHTML, err => {
+//    if (err) throw err;
 
 
-    console.log('Portfolio complete! Check out index.html to see the output!')
-});
+//    console.log('Portfolio complete! Check out index.html to see the output!')
+//});
