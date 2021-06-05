@@ -1,4 +1,6 @@
 const inquirer = require('inquirer');
+const fs = require('fs');
+const generatePage = require('./src/page-template');
 
 const promptUser = () => {
   return inquirer
@@ -12,6 +14,7 @@ const promptUser = () => {
           return true;
         } else {
           console.log('Please enter your name!');
+          return false;
         }
       }
     },
@@ -24,6 +27,7 @@ const promptUser = () => {
           return true;
         } else {
           console.log('Please enter your Github username!');
+          return false;
         }
       }
     },
@@ -70,6 +74,7 @@ const promptProject = portfolioData => {
             return true;
           } else {
             console.log('Please enter your project name!');
+            return false;
           }
         }
       },
@@ -82,6 +87,7 @@ const promptProject = portfolioData => {
             return true;
           } else {
             console.log('Please enter your project description!');
+            return false;
           }
         }
       },
@@ -100,6 +106,7 @@ const promptProject = portfolioData => {
             return true;
           } else {
             console.log('Please enter your Github link!');
+            return false;
           }
         }
       },
@@ -129,14 +136,19 @@ const promptProject = portfolioData => {
   promptUser()
     .then(promptProject)
     .then(portfolioData => {
-      console.log(portfolioData);
-  });
-  
+      const pageHTML = generatePage(portfolioData);
 
-//const fs = require('fs');
-//const generatePage = require('./src/page-template');
+       fs.writeFile('./index.html', pageHTML, err => {
+         if (err) throw new Error(err);
 
-//const pageHTML = generatePage(userName, github);
+         console.log('Page created! Check out index.html in this directory to see it!');
+       });
+    });
+
+
+
+
+
 
 // BEGIN OLD COMMENTED-OUT
 // const profileDataArgs = process.argv.slice(2, process.argv.length);
@@ -159,9 +171,3 @@ const promptProject = portfolioData => {
 //printProfileData(profileDataArgs);
 // END OLD COMMENTED-OUT
 
-//fs.writeFile('./index.html', pageHTML, err => {
-//    if (err) throw err;
-
-
-//    console.log('Portfolio complete! Check out index.html to see the output!')
-//});
