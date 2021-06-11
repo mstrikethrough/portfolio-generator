@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const fs = require('fs');
+const { writeFile, copyFile } = require('./utils/generate-site');
 const generatePage = require('./src/page-template');
 
 const promptUser = () => {
@@ -41,13 +41,7 @@ const promptUser = () => {
       type: 'input',
       name: 'about',
       message: 'Provide some information about yourself:',
-      when: ({ confirmAbout }) => {
-        if (confirmAbout) {
-          return true;
-        } else {
-          return false;
-        }
-      }
+      when: ({ confirmAbout }) => confirmAbout
     }
   ]);
 };    
@@ -157,24 +151,24 @@ const promptProject = portfolioData => {
   //   });
 
 
-  promptUser()
-    .then(promptProject)
-    .then(portfolioData => {
-      return generatePage(portfolioData); 
-    })
-    .then(pageHTML => {
-      return writeFile(pageHTML);
-    })
-    .then(writeFileResponse => {
-      console.log(writeFileResponse);
-      return copyFile();
-    })
-    .then(copyFileResponse => {
-      console.log(copyFileResponse);
-    })
-    .catch(err => {
-      console.log(err);
-    });    
+promptUser()
+  .then(promptProject)
+  .then(portfolioData => {
+    return generatePage(portfolioData); 
+  })
+  .then(pageHTML => {
+    return writeFile(pageHTML);
+  })
+  .then(writeFileResponse => {
+    console.log(writeFileResponse);
+    return copyFile();
+  })
+  .then(copyFileResponse => {
+    console.log(copyFileResponse);
+  })
+  .catch(err => {
+    console.log(err);
+  });    
 
 
 
