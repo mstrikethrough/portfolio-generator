@@ -137,3 +137,5 @@ module.exports = templateData => {
   </html>
   `;
 };
+
+module.exports = { writeFile, copyFile };
